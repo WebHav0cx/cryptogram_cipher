@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryptogram Cipher</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cryptogram Cipher</h1>
+      <label for="key">Key:</label>
+      <input
+        type="text"
+        id="key"
+        placeholder="e.g., QWERTYUIOPLKJHGFDSAZXCVBNM"
+      />
+
+      <label for="plaintext">Plaintext:</label>
+      <textarea
+        id="plaintext"
+        rows="4"
+        placeholder="Enter your text here"
+      ></textarea>
+      <button onclick="encrypt()">Encrypt</button>
+
+      <label for="ciphertext">Ciphertext:</label>
+      <textarea
+        id="ciphertext"
+        rows="4"
+        placeholder="Enter your ciphertext here"
+      ></textarea>
+      <button onclick="decrypt()">Decrypt</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
