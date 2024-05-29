@@ -1,47 +1,59 @@
-function encrypt() {
-  const key = document.getElementById("key").value.toUpperCase();
-  if (!isValidKey(key)) {
-    alert("Invalid key. Please enter a key with 26 unique letters.");
-    return;
-  }
-  const plaintext = document.getElementById("plaintext").value.toUpperCase();
-  const ciphertext = transformText(plaintext, key, true);
-  document.getElementById("ciphertext").value = ciphertext;
-}
-
-function decrypt() {
-  const key = document.getElementById("key").value.toUpperCase();
-  if (!isValidKey(key)) {
-    alert("Invalid key. Please enter a key with 26 unique letters.");
-    return;
-  }
-  const ciphertext = document.getElementById("ciphertext").value.toUpperCase();
-  const plaintext = transformText(ciphertext, key, false);
-  document.getElementById("plaintext").value = plaintext;
-}
-
-function isValidKey(key) {
-  const uniqueLetters = new Set(key);
-  return key.length === 26 && uniqueLetters.size === 26 && /^[A-Z]+$/.test(key);
-}
-
-function transformText(text, key, isEncrypting) {
+// Function to encrypt using a Caesar Cipher
+function encryptCaesar(plaintext, shift) {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const keyMap = {};
+  let ciphertext = "";
 
-  if (isEncrypting) {
-    for (let i = 0; i < alphabet.length; i++) {
-      keyMap[alphabet[i]] = key[i];
-    }
-  } else {
-    for (let i = 0; i < alphabet.length; i++) {
-      keyMap[key[i]] = alphabet[i];
+  for (let i = 0; i < plaintext.length; i++) {
+    let char = plaintext[i].toUpperCase();
+    if (alphabet.includes(char)) {
+      let index = (alphabet.indexOf(char) + shift) % 26;
+      ciphertext += alphabet[index];
+    } else {
+      ciphertext += char; // Non-alphabet characters remain the same
     }
   }
-
-  let result = "";
-  for (let char of text) {
-    result += keyMap[char] || char;
-  }
-  return result;
+  return ciphertext;
 }
+
+// Function to decrypt using a Caesar Cipher
+function decryptCaesar(ciphertext, shift) {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let plaintext = "";
+
+  for (let i = 0; i < ciphertext.length; i++) {
+    let char = ciphertext[i].toUpperCase();
+    if (alphabet.includes(char)) {
+      let index = (alphabet.indexOf(char) - shift + 26) % 26;
+      plaintext += alphabet[index];
+    } else {
+      plaintext += char; // Non-alphabet characters remain the same
+    }
+  }
+  return plaintext;
+}
+
+// Function to handle encryption
+function encrypt() {
+  const plaintext = document.getElementById("plaintext").value;
+  const shift = parseInt(document.getElementById("shift").value);
+  const encryptedText = encryptCaesar(plaintext, shift);
+  document.getElementById("ciphertext").value = encryptedText;
+}
+
+// Function to handle decryption
+function decrypt() {
+  const ciphertext = document.getElementById("ciphertext").value;
+  const shift = parseInt(document.getElementById("shift").value);
+  const decryptedText = decryptCaesar(ciphertext, shift);
+  document.getElementById("plaintext").value = decryptedText;
+}
+
+// Example usage
+const plaintext = "HELLO WORLD";
+const shift = 3;
+
+const encryptedText = encryptCaesar(plaintext, shift);
+console.log("Encrypted Text:", encryptedText);
+
+const decryptedText = decryptCaesar(encryptedText, shift);
+console.log("Decrypted Text:", decryptedText);
